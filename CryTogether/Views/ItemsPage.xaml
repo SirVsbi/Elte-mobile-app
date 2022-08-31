@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CryTogether.Views.ItemsPage"
+             Title="{Binding Title}"
+             xmlns:local="clr-namespace:CryTogether.ViewModels"  
+             xmlns:model="clr-namespace:CryTogether.Models"  
+             x:Name="BrowseItemsPage">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Add" Command="{Binding AddItemCommand}" />
+    </ContentPage.ToolbarItems>
+    <!--
+      x:DataType enables compiled bindings for better performance and compile time validation of binding expressions.
+      https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/data-binding/compiled-bindings
+    -->
+    <RefreshView x:DataType="local:ItemsViewModel" Command="{Binding LoadItemsCommand}" IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
+        <CollectionView x:Name="collectionView"
+                ItemsSource="{Binding Items}"
+                SelectionMode="None">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                        <SwipeView>
+                            <SwipeView.LeftItems>
+                                <SwipeItems>
+                                    <SwipeItem Text="Delete"
+                                   IconImageSource="delete.png"
+                                   BackgroundColor="LightPink"
+                                   Invoked="Swipe_Delete_Event"
+                 
+                                               />
+
+                                <SwipeItem Text="Details"
+                                   BackgroundColor="Green"
+                                    Invoked="Swipe_Event"></SwipeItem>
+                        
+                                </SwipeItems>
+                            </SwipeView.LeftItems>
+
+
+
+                            <Grid
+                      Padding="10"
+                            x:DataType="model:Breakdown">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="1"
+                       Text="{Binding Name}"
+                       FontAttributes="Bold"
+                                   TextColor="Black"
+                                   FontSize="24"/>
+                                <Label
+                       Text="{Binding suferer}"
+                           TextColor="Firebrick"
+                       HeightRequest="60"
+                       WidthRequest="60" />
+
+
+                            </Grid>
+
+                        </SwipeView>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </RefreshView>
+</ContentPage>
